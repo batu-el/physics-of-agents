@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="online_appendix/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statistical Mechanics of AI Agents — Appendix</title>
+<link rel="stylesheet" href="style.css?v=20260813-90">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-name">Statistical Mechanics of AI Agents</span>
+  </div>
+  <nav class="appx-tabs" id="appendix-seg" aria-label="Section"></nav>
+</header>
+
+<!-- ===================== Dashboard ===================== -->
+<main id="dashboard-view">
+  <div class="toolbar" id="dash-controls">
+    <div class="ctrl" id="model-ctrl">
+      <label>Model</label>
+      <div class="seg" id="model-seg"></div>
+    </div>
+    <div class="ctrl" id="regime-ctrl">
+      <label>Dataset</label>
+      <div class="seg" id="regime-seg"></div>
+    </div>
+    <!-- Messages-tab selectors (question/graph/episode), filled by renderInspect;
+         lives in the toolbar so all selectors form one group -->
+    <div class="insp-bar" id="insp-bar" style="display:none"></div>
+    <div class="ctrl" id="view-ctrl">
+      <label>View</label>
+      <div class="seg" id="view-seg"></div>
+    </div>
+    <div class="ctrl" id="rep-ctrl">
+      <label>Episode</label>
+      <div class="seg" id="rep-seg"></div>
+    </div>
+    <div class="ctrl legend" id="legend"></div>
+  </div>
+
+  <section class="panel" id="grid-panel">
+    <div class="grid-wrap">
+      <div id="grid" class="grid"></div>
+    </div>
+  </section>
+
+  <!-- Inspect view: read who said what to whom, step by step -->
+  <section class="panel" id="inspect-panel" hidden>
+    <div id="insp-question" class="insp-question"></div>
+    <div class="insp-main">
+      <aside class="insp-agents">
+        <div class="insp-agents-head">Agents <span id="insp-agents-sub" class="insp-sub"></span></div>
+        <div id="insp-agent-grid" class="insp-agent-grid"></div>
+        <div class="insp-legend legend" id="insp-agent-legend"></div>
+      </aside>
+      <div id="insp-focus" class="insp-focus"></div>
+    </div>
+    <p id="insp-status" class="hint"></p>
+  </section>
+</main>
+
+<!-- ===================== Figures ===================== -->
+<main id="figures-view" hidden>
+  <div id="figpane" class="figpane"></div>
+</main>
+
+<div id="detail" class="detail hidden">
+  <div class="detail-card">
+    <div class="detail-head">
+      <h3 id="detail-title"></h3>
+      <button id="detail-close" aria-label="Close">×</button>
+    </div>
+    <div id="detail-body" class="detail-body"></div>
+    <div class="legend" id="detail-legend"></div>
+  </div>
+</div>
+
+<div id="qmodal" class="detail hidden">
+  <div class="detail-card qcard">
+    <div class="detail-head">
+      <h3 id="qmodal-title"></h3>
+      <button id="qmodal-close" aria-label="Close">×</button>
+    </div>
+    <p id="qmodal-text" class="qtext"></p>
+    <div id="qmodal-poles" class="poles"></div>
+  </div>
+</div>
+
+<footer class="foot">
+  <span id="status">loading…</span>
+</footer>
+
+<script src="app.js?v=20260813-242"></script>
+</body>
+</html>
