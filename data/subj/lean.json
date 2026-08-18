@@ -1,0 +1,26 @@
+{
+  "description": "Hand-coded political lean of the Agree (pole +) position for each subjective statement, 2020s-US coding. 'ambiguous' marks genuinely cross-cutting issues (civil liberties, antitrust, NATO, nuclear) where Agree is not clearly left- or right-coded. Tally: 8 left / 6 right / 6 ambiguous; both splits are 4/3/3. Consumed by dashboard/build_appendix.py.",
+  "coding": ["left", "right", "ambiguous"],
+  "lean": {
+    "political_stance_0": "left",
+    "political_stance_4": "ambiguous",
+    "political_stance_11": "left",
+    "political_stance_17": "right",
+    "political_stance_62": "right",
+    "political_stance_68": "right",
+    "political_stance_72": "left",
+    "political_stance_76": "ambiguous",
+    "political_stance_104": "ambiguous",
+    "political_stance_145": "left",
+    "political_stance_156": "left",
+    "political_stance_231": "right",
+    "political_stance_232": "right",
+    "political_stance_254": "left",
+    "political_stance_266": "ambiguous",
+    "political_stance_353": "right",
+    "political_stance_361": "ambiguous",
+    "political_stance_363": "left",
+    "political_stance_382": "left",
+    "political_stance_393": "ambiguous"
+  }
+}

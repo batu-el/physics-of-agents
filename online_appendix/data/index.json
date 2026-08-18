@@ -1,0 +1,76 @@
+{
+  "models": [
+    {
+      "id": "gpt-4o-mini",
+      "label": "GPT-4o-mini"
+    },
+    {
+      "id": "meta-llama-3-8b-instruct",
+      "label": "Llama-3-8B"
+    },
+    {
+      "id": "gemma-3n-e4b-it",
+      "label": "Gemma-3n-E4B"
+    }
+  ],
+  "regimes": [
+    {
+      "id": "objective",
+      "label": "Objective"
+    },
+    {
+      "id": "subjective",
+      "label": "Subjective"
+    }
+  ],
+  "files": [
+    {
+      "model": "gpt-4o-mini",
+      "regime": "objective",
+      "file": "gpt-4o-mini__objective.json"
+    },
+    {
+      "model": "gpt-4o-mini",
+      "regime": "subjective",
+      "file": "gpt-4o-mini__subjective.json"
+    },
+    {
+      "model": "meta-llama-3-8b-instruct",
+      "regime": "objective",
+      "file": "meta-llama-3-8b-instruct__objective.json"
+    },
+    {
+      "model": "meta-llama-3-8b-instruct",
+      "regime": "subjective",
+      "file": "meta-llama-3-8b-instruct__subjective.json"
+    },
+    {
+      "model": "gemma-3n-e4b-it",
+      "regime": "objective",
+      "file": "gemma-3n-e4b-it__objective.json"
+    },
+    {
+      "model": "gemma-3n-e4b-it",
+      "regime": "subjective",
+      "file": "gemma-3n-e4b-it__subjective.json"
+    }
+  ],
+  "extraModels": [
+    {
+      "id": "qwen3.5-9b",
+      "label": "Qwen3.5-9B"
+    }
+  ],
+  "extraFiles": [
+    {
+      "model": "qwen3.5-9b",
+      "regime": "objective",
+      "file": "qwen3.5-9b__objective.json"
+    },
+    {
+      "model": "qwen3.5-9b",
+      "regime": "subjective",
+      "file": "qwen3.5-9b__subjective.json"
+    }
+  ]
+}

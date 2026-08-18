@@ -1,0 +1,1660 @@
+{
+  "meta": {
+    "experiment": "subjective_energy_seq",
+    "update_rule": "scheduled_independent_clocks",
+    "schedule_file": "data/schedules/subjective_firing_schedule.json",
+    "schedule_meta": {
+      "experiment": "subjective_firing_schedule",
+      "mode": "subjective",
+      "num_agents": 32,
+      "num_steps": 8,
+      "cells_per_step": 1000,
+      "p_step": 0.5,
+      "p_cell": 0.0005,
+      "schedule_seed": 0,
+      "collision_policy": "uniform_random_order_within_cell",
+      "seed": 0,
+      "num_edges": 112,
+      "num_train_graphs": 8,
+      "num_seen_graphs": 4,
+      "num_fresh_graphs": 4,
+      "lattice_ids": [],
+      "train_file": "data/subj/train.jsonl",
+      "test_file": "data/subj/test.jsonl",
+      "limit": null,
+      "seen_graph_ids": [
+        "J0",
+        "J1",
+        "J2",
+        "J3",
+        "J4",
+        "J5",
+        "J6",
+        "J7"
+      ]
+    },
+    "split_filter": "both",
+    "mode": "subjective",
+    "model": "gpt-4o-mini",
+    "backend": "openai",
+    "temperature": 0.7,
+    "reasoning_effort": null,
+    "num_agents": 32,
+    "num_steps": 8,
+    "k": 5,
+    "persona_file": "data/subj/personas.json",
+    "persona_order": "canonical_fixed",
+    "seen_graph_ids": [
+      "J0",
+      "J1",
+      "J2",
+      "J3",
+      "J4",
+      "J5",
+      "J6",
+      "J7"
+    ]
+  },
+  "replicas": {
+    "political_stance_0__J0__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_0__J1__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 119
+    },
+    "political_stance_0__J2__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 132
+    },
+    "political_stance_0__J3__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_0__J4__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 130
+    },
+    "political_stance_0__J5__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 120
+    },
+    "political_stance_0__J6__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 127
+    },
+    "political_stance_0__J7__rep00": {
+      "qid": "political_stance_0",
+      "split": "train",
+      "question": "Student loan debt should be forgiven by the government",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 130
+    },
+    "political_stance_104__J0__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 111
+    },
+    "political_stance_104__J1__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_104__J2__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 122
+    },
+    "political_stance_104__J3__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 119
+    },
+    "political_stance_104__J4__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 148
+    },
+    "political_stance_104__J5__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_104__J6__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 142
+    },
+    "political_stance_104__J7__rep00": {
+      "qid": "political_stance_104",
+      "split": "train",
+      "question": "Peaceful protest is more effective than civil disobedience",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 116
+    },
+    "political_stance_11__J0__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 138
+    },
+    "political_stance_11__J1__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_11__J2__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 147
+    },
+    "political_stance_11__J3__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 129
+    },
+    "political_stance_11__J4__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 147
+    },
+    "political_stance_11__J5__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 114
+    },
+    "political_stance_11__J6__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 132
+    },
+    "political_stance_11__J7__rep00": {
+      "qid": "political_stance_11",
+      "split": "train",
+      "question": "Private equity firms harm the companies they acquire",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 135
+    },
+    "political_stance_145__J0__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_145__J1__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 126
+    },
+    "political_stance_145__J2__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 123
+    },
+    "political_stance_145__J3__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 120
+    },
+    "political_stance_145__J4__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 130
+    },
+    "political_stance_145__J5__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 112
+    },
+    "political_stance_145__J6__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_145__J7__rep00": {
+      "qid": "political_stance_145",
+      "split": "train",
+      "question": "Billionaires should not exist in a just society",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_156__J0__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 121
+    },
+    "political_stance_156__J1__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 144
+    },
+    "political_stance_156__J2__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 142
+    },
+    "political_stance_156__J3__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 119
+    },
+    "political_stance_156__Jf0__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 143
+    },
+    "political_stance_156__Jf1__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 139
+    },
+    "political_stance_156__Jf2__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 154
+    },
+    "political_stance_156__Jf3__rep00": {
+      "qid": "political_stance_156",
+      "split": "test",
+      "question": "Financial transaction taxes would reduce market volatility",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 130
+    },
+    "political_stance_17__J0__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 141
+    },
+    "political_stance_17__J1__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 109
+    },
+    "political_stance_17__J2__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 123
+    },
+    "political_stance_17__J3__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 130
+    },
+    "political_stance_17__J4__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 124
+    },
+    "political_stance_17__J5__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 119
+    },
+    "political_stance_17__J6__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 123
+    },
+    "political_stance_17__J7__rep00": {
+      "qid": "political_stance_17",
+      "split": "train",
+      "question": "Mandatory vaccination violates bodily autonomy",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 108
+    },
+    "political_stance_231__J0__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 111
+    },
+    "political_stance_231__J1__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 148
+    },
+    "political_stance_231__J2__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 111
+    },
+    "political_stance_231__J3__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 119
+    },
+    "political_stance_231__Jf0__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 142
+    },
+    "political_stance_231__Jf1__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 123
+    },
+    "political_stance_231__Jf2__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 126
+    },
+    "political_stance_231__Jf3__rep00": {
+      "qid": "political_stance_231",
+      "split": "test",
+      "question": "Foreign aid spending weakens domestic economic priorities",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 143
+    },
+    "political_stance_232__J0__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 135
+    },
+    "political_stance_232__J1__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 113
+    },
+    "political_stance_232__J2__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 135
+    },
+    "political_stance_232__J3__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 124
+    },
+    "political_stance_232__Jf0__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 126
+    },
+    "political_stance_232__Jf1__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 133
+    },
+    "political_stance_232__Jf2__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 136
+    },
+    "political_stance_232__Jf3__rep00": {
+      "qid": "political_stance_232",
+      "split": "test",
+      "question": "The US should maintain military bases around the world",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 106
+    },
+    "political_stance_254__J0__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 126
+    },
+    "political_stance_254__J1__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 115
+    },
+    "political_stance_254__J2__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 149
+    },
+    "political_stance_254__J3__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 125
+    },
+    "political_stance_254__Jf0__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 135
+    },
+    "political_stance_254__Jf1__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 153
+    },
+    "political_stance_254__Jf2__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 129
+    },
+    "political_stance_254__Jf3__rep00": {
+      "qid": "political_stance_254",
+      "split": "test",
+      "question": "Stricter gun control laws would reduce violent crime rates",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 138
+    },
+    "political_stance_266__J0__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 143
+    },
+    "political_stance_266__J1__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_266__J2__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 115
+    },
+    "political_stance_266__J3__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 122
+    },
+    "political_stance_266__Jf0__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 122
+    },
+    "political_stance_266__Jf1__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 129
+    },
+    "political_stance_266__Jf2__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 136
+    },
+    "political_stance_266__Jf3__rep00": {
+      "qid": "political_stance_266",
+      "split": "test",
+      "question": "Breaking up big tech companies would increase innovation",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 127
+    },
+    "political_stance_353__J0__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 134
+    },
+    "political_stance_353__J1__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 135
+    },
+    "political_stance_353__J2__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_353__J3__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 134
+    },
+    "political_stance_353__Jf0__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_353__Jf1__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 141
+    },
+    "political_stance_353__Jf2__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 143
+    },
+    "political_stance_353__Jf3__rep00": {
+      "qid": "political_stance_353",
+      "split": "test",
+      "question": "Campus speech codes violate First Amendment principles",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_361__J0__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 134
+    },
+    "political_stance_361__J1__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 122
+    },
+    "political_stance_361__J2__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 125
+    },
+    "political_stance_361__J3__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 144
+    },
+    "political_stance_361__Jf0__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_361__Jf1__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 139
+    },
+    "political_stance_361__Jf2__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 111
+    },
+    "political_stance_361__Jf3__rep00": {
+      "qid": "political_stance_361",
+      "split": "test",
+      "question": "NATO expansion provokes conflict and should be halted",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 144
+    },
+    "political_stance_363__J0__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 134
+    },
+    "political_stance_363__J1__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 141
+    },
+    "political_stance_363__J2__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 118
+    },
+    "political_stance_363__J3__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 111
+    },
+    "political_stance_363__Jf0__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 151
+    },
+    "political_stance_363__Jf1__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 135
+    },
+    "political_stance_363__Jf2__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 116
+    },
+    "political_stance_363__Jf3__rep00": {
+      "qid": "political_stance_363",
+      "split": "test",
+      "question": "Defense spending should be reduced to fund social programs",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_382__J0__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_382__J1__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 137
+    },
+    "political_stance_382__J2__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 112
+    },
+    "political_stance_382__J3__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 116
+    },
+    "political_stance_382__Jf0__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 127
+    },
+    "political_stance_382__Jf1__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 145
+    },
+    "political_stance_382__Jf2__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 142
+    },
+    "political_stance_382__Jf3__rep00": {
+      "qid": "political_stance_382",
+      "split": "test",
+      "question": "Critical race theory should be taught in K-12 schools",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 133
+    },
+    "political_stance_393__J0__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 106
+    },
+    "political_stance_393__J1__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 146
+    },
+    "political_stance_393__J2__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 145
+    },
+    "political_stance_393__J3__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 115
+    },
+    "political_stance_393__Jf0__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "Jf0",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 155
+    },
+    "political_stance_393__Jf1__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "Jf1",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 131
+    },
+    "political_stance_393__Jf2__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "Jf2",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 144
+    },
+    "political_stance_393__Jf3__rep00": {
+      "qid": "political_stance_393",
+      "split": "test",
+      "question": "Nuclear power is essential for achieving clean energy goals",
+      "graph_id": "Jf3",
+      "graph_seen": false,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 130
+    },
+    "political_stance_4__J0__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 129
+    },
+    "political_stance_4__J1__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 122
+    },
+    "political_stance_4__J2__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 104
+    },
+    "political_stance_4__J3__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 123
+    },
+    "political_stance_4__J4__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 113
+    },
+    "political_stance_4__J5__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 125
+    },
+    "political_stance_4__J6__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 134
+    },
+    "political_stance_4__J7__rep00": {
+      "qid": "political_stance_4",
+      "split": "train",
+      "question": "Protest permits infringe on the right to peaceful assembly",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 123
+    },
+    "political_stance_62__J0__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 138
+    },
+    "political_stance_62__J1__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 127
+    },
+    "political_stance_62__J2__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 116
+    },
+    "political_stance_62__J3__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 126
+    },
+    "political_stance_62__J4__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 149
+    },
+    "political_stance_62__J5__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 119
+    },
+    "political_stance_62__J6__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 128
+    },
+    "political_stance_62__J7__rep00": {
+      "qid": "political_stance_62",
+      "split": "train",
+      "question": "Farm subsidies distort markets and should be phased out",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 116
+    },
+    "political_stance_68__J0__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 132
+    },
+    "political_stance_68__J1__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 150
+    },
+    "political_stance_68__J2__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 124
+    },
+    "political_stance_68__J3__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 130
+    },
+    "political_stance_68__J4__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 124
+    },
+    "political_stance_68__J5__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 134
+    },
+    "political_stance_68__J6__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 107
+    },
+    "political_stance_68__J7__rep00": {
+      "qid": "political_stance_68",
+      "split": "train",
+      "question": "Sanctuary city policies undermine federal immigration law",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 121
+    },
+    "political_stance_72__J0__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 117
+    },
+    "political_stance_72__J1__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 118
+    },
+    "political_stance_72__J2__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 134
+    },
+    "political_stance_72__J3__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 118
+    },
+    "political_stance_72__J4__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 125
+    },
+    "political_stance_72__J5__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 136
+    },
+    "political_stance_72__J6__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 124
+    },
+    "political_stance_72__J7__rep00": {
+      "qid": "political_stance_72",
+      "split": "train",
+      "question": "Homeschooling should face stricter government oversight",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 123
+    },
+    "political_stance_76__J0__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J0",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 114
+    },
+    "political_stance_76__J1__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J1",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 127
+    },
+    "political_stance_76__J2__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J2",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 132
+    },
+    "political_stance_76__J3__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J3",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 117
+    },
+    "political_stance_76__J4__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J4",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 126
+    },
+    "political_stance_76__J5__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J5",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 116
+    },
+    "political_stance_76__J6__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J6",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 136
+    },
+    "political_stance_76__J7__rep00": {
+      "qid": "political_stance_76",
+      "split": "train",
+      "question": "Patent terms should be shortened to encourage innovation",
+      "graph_id": "J7",
+      "graph_seen": true,
+      "repeat": 0,
+      "num_edges": 112,
+      "num_events": 108
+    }
+  }
+}
