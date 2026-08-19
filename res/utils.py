@@ -6,6 +6,10 @@ from pathlib import Path
 
 import numpy as np
 
+RES_DIR = Path(__file__).resolve().parent
+REPO_ROOT = RES_DIR.parent
+DATA_DIR = REPO_ROOT / "data"
+
 MODELS = [("gpt-4o-mini", "GPT-4o-mini", "gpt"),
           ("google/gemma-3n-E4B-it", "Gemma-3n-E4B", "gma"),
           ("Qwen/Qwen3.5-9B", "Qwen3.5-9B", "qwn"),
@@ -31,21 +35,23 @@ BANK_DIR = {"objective": "obj", "subjective": "subj"}
 def load_data(data_dir=None):
     """Everything the notebooks share: runs, question banks, persona features
     and the structural graph classification."""
-    data_dir = Path(data_dir) if data_dir else Path(__file__).resolve().parent.parent / "data"
-    runs = json.load(open(data_dir / "clean_runs.json"))
+    data_dir = Path(data_dir) if data_dir is not None else DATA_DIR
+    runs = json.loads((data_dir / "clean_runs.json").read_text(encoding="utf-8"))
     banks, P = {}, {}
     for regime, sub in BANK_DIR.items():
         bank = {}
         for split in ("train", "test"):
-            for line in (data_dir / sub / f"{split}.jsonl").read_text().splitlines():
+            for line in (data_dir / sub / f"{split}.jsonl").read_text(
+                    encoding="utf-8").splitlines():
                 q = json.loads(line)
                 bank[q["question"]] = {
                     "split": split, "qid": q["qid"],
                     "q": np.array(q["embedding_pca10"][:3]),
                     "truth": {"A": 1, "B": -1}.get(q.get("answer"), 0)}
         banks[regime] = bank
-        items = sorted(json.load(open(data_dir / sub / "persona_embeddings.json"))
-                       ["items"], key=lambda it: it["idx"])
+        items = sorted(json.loads(
+            (data_dir / sub / "persona_embeddings.json").read_text(
+                encoding="utf-8"))["items"], key=lambda it: it["idx"])
         P[regime] = pca3(np.array([it["embedding"] for it in items], dtype=float))
     return runs, banks, P, graph_classes(runs, banks)
 
@@ -116,18 +122,23 @@ def build_episodes(model, regime, runs, banks, P, gclass):
 
 
 def build_xy(model, regime, runs, banks, P, gclass, T=8):
-    """The transition tensors of one model x regime: x (E, 8, 32, 19) =
+    """The first T transition tensors of one model x regime: x (E, T, 32, 19) =
     [s_prev | bias p q p⊗q | drive_pos drive_neg] per (transition, agent),
-    y (E, 8, 32) = the next spin s(t+1) (0 = unparsed), plus the episodes."""
+    y (E, T, 32) = the next spin s(t+1) (0 = unparsed), plus the episodes."""
     ep = build_episodes(model, regime, runs, banks, P, gclass)
     S, phi = ep["spins"], ep["phi"]
-    s_in = S[:, :-1]
+    available = S.shape[1] - 1
+    if not isinstance(T, (int, np.integer)) or isinstance(T, bool):
+        raise TypeError(f"T must be an integer, got {type(T).__name__}")
+    if not 1 <= T <= available:
+        raise ValueError(f"T must be in [1, {available}], got {T}")
+    s_in = S[:, :T]
     pos = np.einsum("eij,etj->eti", np.maximum(ep["J"], 0), s_in)
     neg = np.einsum("eij,etj->eti", np.minimum(ep["J"], 0), s_in)
     x = np.concatenate([s_in[..., None],
                         np.broadcast_to(phi[:, None], (len(S), T) + phi.shape[1:]),
                         pos[..., None], neg[..., None]], axis=-1)
-    return x, S[:, 1:].astype(int), ep
+    return x, S[:, 1:T + 1].astype(int), ep
 
 
 def sigmoid(x):
@@ -217,7 +228,13 @@ def drives(J_e, s, k):
 
 def discrete_rollout(phi, J_e, s0, w, k, T=8, mode="deterministic", rng=None):
     """Free-run the fitted discrete update for T steps from s0, feeding its own
-    spins back in; deterministic (sign) or stochastic (Bernoulli). (E, T, n)."""
+    spins back in; deterministic (sign) or stochastic (Bernoulli). Pass a
+    seeded numpy Generator for reproducible stochastic output. (E, T, n)."""
+    if mode not in ("deterministic", "stochastic"):
+        raise ValueError(
+            f"mode must be 'deterministic' or 'stochastic', got {mode!r}")
+    if mode == "stochastic" and rng is None:
+        rng = np.random.default_rng()
     h = phi @ w[:16]
     s = s0.astype(float)
     out = np.empty((len(s0), T, s0.shape[1]), dtype=int)
