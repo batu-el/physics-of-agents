@@ -5,8 +5,6 @@ from typing import Callable, Dict, List, Optional
 # A `pi` is any callable mapping a single user prompt to the model's response.
 Pi = Callable[[str], str]
 
-# Demands a direct judgement without chain-of-thought: CoT blew up latency/cost and led to the models always giving textbook answers.
-# this is added because some models needed more aggressive prompting to avoid CoT. 
 OBJECTIVE_SPIN_INSTRUCTION = (
     "# Instruction\n"
     "Give your direct answer on which option is correct."
@@ -24,6 +22,7 @@ def _format_inbox(messages: List[str]) -> str:
 
 
 def _format_choices(choices: Dict[str, str]) -> str:
+    
     return f"A) {choices['A']}\nB) {choices['B']}"
 
 

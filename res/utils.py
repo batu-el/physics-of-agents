@@ -156,8 +156,7 @@ class Logistic:
     mean cross-entropy plus a small l2 (1e-3) on the persona-question field
     weights only (columns 1..15 of the [field | couplings] designs); the bias
     (column 0) and any coupling columns (16+) are unpenalized. Couplings are
-    initialized at 0.1, everything else at zero. The objective is convex, so
-    Adam reaches the unique optimum."""
+    initialized at 0.1, everything else at zero."""
 
     def __init__(self, l2=1e-3, iters=1500):
         self.l2, self.iters, self.w = l2, iters, None
@@ -233,10 +232,9 @@ def discrete_rollout(phi, J_e, s0, w, k, T=8, mode="deterministic", rng=None):
 
 
 def fcba(pred, y_te, s0, ep_mask):
-    """Flip-and-class balanced accuracy (%), the paper's Appendix C.5 metric:
+    """Flip-and-class balanced accuracy (%):
     the unweighted mean of accuracy over the four transition groups
-    (flip vs stay) x (next spin +1 vs -1). A rule that never flips anyone, or
-    always predicts one label, scores exactly 50."""
+    (flip vs stay) x (next spin +1 vs -1)."""
     s_prev = np.concatenate([s0[:, None].astype(int), y_te[:, :-1]], axis=1)
     defined = ep_mask[:, None, None] & (y_te != 0) & (s_prev != 0)
     correct = pred == y_te
@@ -273,8 +271,7 @@ def individual_archetypes(traj):
 
 def group_archetypes(n0, nT, closed=False):
     """Split-band class from the initial vs final net opinion n(t), index into
-    GRP_CLASSES; closed=True counts |n| = TAU as split (single-vote spins
-    never land on the edge, so both conventions agree there)."""
+    GRP_CLASSES; closed=True counts |n| = TAU as split."""
     scalar = np.isscalar(n0) or np.ndim(n0) == 0
     n0, nT = np.atleast_1d(n0).astype(float), np.atleast_1d(nT).astype(float)
     inside = (lambda n: np.abs(n) <= TAU) if closed else (lambda n: np.abs(n) < TAU)

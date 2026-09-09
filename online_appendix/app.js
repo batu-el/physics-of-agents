@@ -441,9 +441,9 @@ function renderFigures() {
 function renderAppendix(grid) {
   if (state.appendixTab === "lattices") { renderLattices(grid); return; }
 
-  // questions + personas come from the lazily-loaded appendix payload
+  // questions + personas come from the lazily-loaded explorer payload
   if (!state.appendixData) {
-    appendNote(grid, "loading appendix data…");
+    appendNote(grid, "loading explorer data…");
     fetch(`data/appendix.json?v=${DATA_V}`).then((r) => r.json())
       .then((d) => { state.appendixData = d; render(); });
     return;

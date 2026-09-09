@@ -81,8 +81,6 @@ def _advance_replica_chain(
                     msg = f"[error: {exc}]"
                 for j in recips[i]:
                     board[(i, j)] = msg
-            # Update: k-vote resample from the current board (the agent's
-            # own post is not in its own inbox, so posting first is neutral).
             agree, disagree = _build_inboxes(rep, board, t)
             futs = [
                 lm_pool.submit(

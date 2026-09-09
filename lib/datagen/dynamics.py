@@ -87,7 +87,7 @@ def _build_inboxes(
     step_idx: int,
 ) -> Tuple[List[List[str]], List[List[str]]]:
     """Split one step's messages into per-receiver (agree, disagree) inboxes,
-    shuffled deterministically per (replica, step, receiver) so runs are reproducible."""
+    shuffled deterministically per (replica, step, receiver)."""
     n = rep.n
     agree: List[List[str]] = [[] for _ in range(n)]
     disagree: List[List[str]] = [[] for _ in range(n)]
@@ -104,10 +104,7 @@ def _build_inboxes(
                 disagree[j].append(msg)
     return agree, disagree
 
-# an earlier version of the code was sampling multiple messages per sender (conditioned on the same persona and opinion)
-# we observed that the sampled messages were similar, functionally almost the same
-# we fixed this bug and continued our experimentation
-# current codebase samples one message per sender, but the legacy runs exist in the codebase
+# Legacy GPT-4o-mini and Gemma-3n-E4B runs sampled one message per recipient without recipient conditioning; Qwen, Llama, and async runs use one shared message per sender per round.
 def _run_message_phase(
     replicas: List[Replica],
     pi: Pi,
