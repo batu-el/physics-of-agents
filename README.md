@@ -79,7 +79,7 @@ demo_output/
 The manifest describes two episodes: one training question and one test question. Each episode contains a 4 × 4 interaction matrix `J`, a 3 × 4 array containing the initial opinions and the opinions after each of the two updates in `spins_history`, a 3 × 4 × 3 array of individual opinion samples in `spins_raw_history`, two rounds of messages `messages_history`. 
 
 ### Instructions for use
-Open a notebook in `res/` and run its cells in order. A useful starting point is `res/1_archetypes.ipynb`, which loads the released synchronous data and produces trajectory-classification summaries. Its initial data-loading cell should report `9600 societies`.
+For reproducing the results in the paper, open a notebook in `res/` and run its cells in order. A useful starting point is `res/1_archetypes.ipynb`, which loads the released synchronous data and produces trajectory-classification summaries. Its initial data-loading cell should report `9600 societies`.
 
 For prediction and downstream analyses:
 - Run `res/4_prediction.ipynb` to fit the prediction models and regenerate `res/couplings.json`. 
