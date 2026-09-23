@@ -22,7 +22,7 @@ See [implementation_details.md](implementation_details.md) for the code and data
 
 ### System Requirements
 
-This code uses Python and the packages listed in [requirements.txt](requirements.txt). The analysis notebooks under res/ uses CPU computation and do not require a GPU or other specialized hardware. Generating new language-model responses with the data generation code under lib/ requires access to a language model API. The code has been successfully tested on macOS 26.6.2, Apple Silicon (arm64), Python 3.9.13. 
+This code uses Python and the packages listed in [requirements.txt](requirements.txt). The analysis notebooks under res/ use CPU computation and do not require a GPU or other specialized hardware. Generating new language-model responses with the data generation code under lib/ requires access to a language model API. The code has been successfully tested on macOS 26.6.2, Apple Silicon (arm64), Python 3.9.13. 
 
 ### Installation Guide
 ```bash
@@ -42,7 +42,7 @@ Installation takes approximately 5 minutes on a MacBook Pro with an Apple M1 Pro
 Instructions for running the analysis: The data collected in our study is available under data/. Run the notebooks under res/ to follow the analysis step by step.
 
 Instructions for running data generation: For generating the data, use the files under lib/. The following command will use the first question from the training and test sets for the subjective dataset (`data/subj/train.jsonl`, `data/subj/test.jsonl`). It uses the first four personas from `data/subj/personas.json`, one shared graph, two update rounds, and three opinion samples per
-agent. `--num-edges 6` specifies six nonzero entries in the symmetric interaction matrix, corresponding to three undirected connections. This demo uses simulated responses through the --mock option, requires no API key, and takes approximately one second on the tested machine. To generate responses using gpt-4o-mini, remove --mock and set the OPENAI_API_KEY environment variable. Runtime for API-backed generation depends on response times and rate limits.
+agent. `--num-edges 6` specifies six nonzero entries in the symmetric interaction matrix, corresponding to three undirected connections. This demo uses simulated responses through the --mock option, requires no API key, and takes approximately one second on the tested machine. To generate responses using gpt-4o-mini, remove --mock and set the OPENAI_API_KEY environment variable. Runtime for API-backed generation depends on response times and rate limits. Run the following command from the repository root.
 
 ```bash
 python -m lib.datagen.collect_energy \
