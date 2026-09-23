@@ -1,0 +1,19 @@
+# Requires Python >= 3.9
+
+# Numerical analysis and plotting
+numpy
+pandas
+matplotlib
+
+# Experiment generation
+tqdm
+openai
+
+# Data consolidation
+datasets
+
+# Notebook execution and table display
+jupyterlab
+ipykernel
+ipython
+jinja2
