@@ -4,6 +4,8 @@ Code for [Physics of Agents: Statistical Mechanics Predicts Collective Behavior 
 
 Each experiment gives a group of agents a question, a persona for each agent, and a network describing who communicates with whom. The agents express opinions, exchange messages, and update their opinions. The analysis then asks whether simple mathematical rules can predict those updates.
 
+![Pipeline from question banks, personas, and interaction graphs through conversation generation and data consolidation to model fitting and figures.](assets/pipeline.png)
+
 ```
 lib/                    experiment / generation
   datagen/              synchronous dynamics (main experiments)

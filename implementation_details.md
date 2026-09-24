@@ -4,19 +4,29 @@ Each experiment gives a group of agents a question, a persona for each agent, an
 
 ### Concepts
 
-| Term | Meaning in this codebase |
-| --- | --- |
-| Agent | One member of a simulated society, represented by a persona, an opinion, and an inbox. A language model generates its answers and messages. |
-| Persona | Text describing the agent's views or expertise; supplied in its prompts. |
-| Spin, `s` | An opinion encoded as `+1` or `−1`. In saved spin samples, `0` marks a failed sample, not a third answer. |
-| Regime, `mode` | Either subjective statements (AGREE/DISAGREE) or objective questions (A/B). |
-| Interaction matrix, `J` | The communication network. In generation, `J[i, j]` describes the connection from sender `i` to receiver `j`. |
-| Replica / episode | One trial of a society answering one question on one graph. `Replica` is its in-memory representation; an episode is the saved record. |
-| Trajectory | The sequence of opinions over an episode. Repeated trials can produce different trajectories. |
-| Round / step | One message-and-opinion update. Step 0 records opinions before any messages are exchanged. |
-| `k` spin samples | Repeated answers to the same opinion prompt, combined into one opinion by majority vote. |
-| `Pi` / `pi` | A Python callable that takes a prompt string and returns a response string. |
-| Coupling | A fitted coefficient describing how strongly neighboring opinions affect a predicted update. |
+| Term | Definition and notation in the paper | Codebase name and location |
+| --- | --- | --- |
+| Agent | A language model conditioned on a persona or expertise profile ($p_i$), prompted to sample a message or an opinion about a question ($q$). | *In the codebase, agent `i` is represented by `personas[i]`* |
+| Social tie | $J_{ij} \in \{-1,0,+1\}$, the edge between agents $i$ and $j$. For concordant (friendly) ties $(J_{ij}=+1)$ the receiver $i$ is prompted to regard the source $j$ as an agent it tends to agree with. For discordant (unfriendly) ties $(J_{ij}=-1)$ the receiver $i$ is prompted to regard the source $j$ as an agent it tends to disagree with. | *In the codebase, `rep.J[i, j]` is interpreted by [`_build_inboxes`](lib/datagen/dynamics.py#L84) as sender `i` to receiver `j`. This is equivalent to the manuscript's receiver-first indexing since networks are symmetric.* |
+| Communication Network | $J \in \{-1,0,+1\}^{N \times N}$ is the collection of social ties between $N$ agents. We also define $J^{+}$ with $J^{+}_{ij}=\max(J_{ij},0)$ and $J^{-}$ with $J^{-}_{ij}=\min(J_{ij},0)$. | *In the codebase, the matrix is `J` or the episode batch `J_e`. [graph.py](lib/datagen/graph.py) constructs it; [`drives`](res/utils.py#L208) uses `np.maximum(J_e, 0)` and `np.minimum(J_e, 0)` for the positive and negative parts.* |
+| Group & Community | A collection of $N$ agents connected by the signed communication network $J$. Group and community are used interchangeably. We set $N=32$. | *In the codebase, a group's configuration is carried by a [`Replica`](lib/datagen/dynamics.py#L20); its size is `rep.n` or `--num-agents`. The main analysis uses `N_AGENTS=32` in [res/utils.py](res/utils.py). The frontier variant uses 64 agents.e* |
+| Opinions | A binary vote from agent $i$ at round $t$ is denoted as $o_i(t) \in \{-1,+1\}$. We take $K$ opinion samples for $o_i(t)$ and denote the $k$-th binary vote from agent $i$ at round $t$ as $o_{i,k}(t)$. We define opinion $\bar{o}_i(t)=\frac{1}{K}\sum_k o_{i,k}(t)$, and state $s_i(t)=\operatorname{sign}(\bar{o}_i(t))$. We use $K=5$ in our experiments unless stated otherwise. | *In the codebase, `spins_raw_history[t][i][k]` stores a vote, [`opinions(run)[t, i]`](res/utils.py#L53) gives its sample mean, and `spins_history[t][i]` stores the aggregated state. Generation uses `k` / `--k` for manuscript $K$. Failed samples are stored as `0`; [`_aggregate_spin`](lib/datagen/dynamics.py#L54) uses the first sample to break ties.* |
+| Group Opinion | $\bar{o}(t)=(\bar{o}_1(t),\dots,\bar{o}_N(t)) \in [-1,+1]^N$ is $\bar{o}_i(t)$ from all agents at time $t$. | *In the codebase, this is [`opinions(run)[t, :]`](res/utils.py#L53), the vector of sample-mean opinions at one round.* |
+| Group State | $s(t)=(s_1(t),\dots,s_N(t))$ is $s_i(t)$ from all agents at time $t$. | *In the codebase, this is `spins_history[t]` in [`Replica`](lib/datagen/dynamics.py#L20), or `ep["spins"][episode, t, :]` after [`build_episodes`](res/utils.py#L93).* |
+| Individual Trajectory | $(\bar{o}_i(0),\dots,\bar{o}_i(T)) \in [-1,+1]^{T+1}$ is $\bar{o}_i(t)$ from a single agent across timesteps. We use $T=8$ in our experiments unless stated otherwise. | *In the codebase, this is [`opinions(run)[:, i]`](res/utils.py#L53). The round count is `num_steps` in [`run_forward_dynamics`](lib/datagen/dynamics.py#L240); the initial state adds one saved time point.* |
+| Group Trajectory | $((\bar{o}_1(0),\dots,\bar{o}_1(T)),\dots,(\bar{o}_N(0),\dots,\bar{o}_N(T))) \in [-1,+1]^{N \times (T+1)}$ is $\bar{o}_i(t)$ from all agents across timesteps. | *In the codebase, [`opinions(run)`](res/utils.py#L53) has shape `(T+1, N)`, with time first. Its transpose has the manuscript's `(N, T+1)` layout. `spins_history` instead stores the corresponding aggregated-state trajectory.* |
+| Episode | We call multiple independent runs of a group trajectory episodes. We take $4$ episodes of the same group trajectory in our experiments unless stated otherwise. | *In the codebase, each [`Replica`](lib/datagen/dynamics.py#L20) is one realization, saved as one JSON file by [`_save_replica`](lib/datagen/dynamics.py#L218). `--trajectories` and `build_replicas` in [collect_energy.py](lib/datagen/collect_energy.py) control repeated runs of the same question–graph configuration. Their realized trajectories can differ.* |
+| Archetype | A discrete descriptive category assigned to an individual or a group trajectory. | *In the codebase, [`individual_archetypes`](res/utils.py#L266) and [`group_archetypes`](res/utils.py#L272) return class indices into `IND_CLASSES` and `GRP_CLASSES`; [1_archetypes.ipynb](res/1_archetypes.ipynb) uses them for descriptive analysis.* |
+| Net opinion | $n(t)=\frac{1}{N}\sum_i \bar{o}_i(t)$, the average opinion of the group. | *In the codebase, `r["n"] = op.mean(axis=1)` in [2_conviction.ipynb](res/2_conviction.ipynb), with `op = opinions(r)`. Other descriptive notebooks use `r["net"]`. In the fitted-model temperature sweep, `n = s.mean(axis=1)` averages simulated binary states.* |
+| Conviction | $c(t)=\frac{1}{N}\sum_i \bar{o}_i(t)^2$, the average strength of individual opinions regardless of direction. | *In the codebase, `r["mag"]["sq"] = (op ** 2).mean(axis=1)` in [2_conviction.ipynb](res/2_conviction.ipynb). The alternative `r["mag"]["abs"]` uses mean absolute opinion.* |
+| Characteristic Regime | A discrete descriptive category assigned to a group opinion. One of indifference, polarization, or consensus, determined from net opinion and conviction. It is defined relative to other group opinions obtained by running the same model on the same set of questions and social graphs. | *In the codebase, `ph` and `r["ph"][cv]` store `I`, `P`, or `C` in [2_conviction.ipynb](res/2_conviction.ipynb), using `mag_cut` and `n_cut` within each model/question-regime subset. This differs from `mode` or `REGIMES`, which identify subjective/objective questions.* |
+| Intrinsic field | Agent $i$'s question-specific predisposition is denoted as $g_i$. | *In the codebase, the intrinsic contribution in fitted-logit units is `h = phi @ w[:16]` in [`discrete_rollout`](res/utils.py#L217), or `h = phi @ w_field` in [5_temperaturesweep.ipynb](res/5_temperaturesweep.ipynb). [`static_field`](res/utils.py#L86) builds the feature vector `phi`, not the scalar field. No separate variable named `g_i` is stored.* |
+| Local field | The combined social and intrinsic field on agent $i$ is denoted as $f_i$. | *In the codebase, no separate `f_i` variable is stored. [`discrete_rollout`](res/utils.py#L217) combines intrinsic and social contributions as `u = h + drives(J_e, s, k) @ w[16:]`, directly in logit units. A separate normalization relating manuscript $f_i$ to $h_i$ is not represented by a named variable.* |
+| Logit | The complete argument passed to the logistic function in the fitted update rule, which is denoted as $h_i$. | *In the codebase, the complete discrete-update logit is `u` in [`discrete_rollout`](res/utils.py#L217). In [5_temperaturesweep.ipynb](res/5_temperaturesweep.ipynb), `u = (h + K @ s) / T` in per-episode matrix notation, so it already includes temperature scaling. Code `h` names only the intrinsic contribution, unlike manuscript $h_i$.* |
+| Interaction Parameters & Couplings | We refer to $\beta$s that scale social influence in the fitted update rule as interaction parameters or couplings. | *In the codebase, these are the fitted weights `w[16:]` and named entries under `betas` in [couplings.json](res/couplings.json). `BETA_LABELS` in [4_prediction.ipynb](res/4_prediction.ipynb) defines `beta`, `beta_pos`, `beta_neg`, `beta_0`, and the truth-conditioned variants.* |
+| Temperature | $\mathcal{T}$, the noise level of the fitted update rule. We reintroduce it in rollouts by scaling the logit, $P(s_i(t+1)=+1)=\sigma(h_i(t)/\mathcal{T})$, so higher $\mathcal{T}$ makes updates noisier. The fitted rule corresponds to the operating point $\mathcal{T}=1$. | *In the codebase, this is argument `T` of `sweep_at` and values in `T_GRID` in [5_temperaturesweep.ipynb](res/5_temperaturesweep.ipynb). Here `T` means temperature, not the round count. The generation CLI's `--temperature` instead controls language-model sampling temperature, which we fix at 0.7 for all our experiments.* |
+| Variance of Absolute Net Opinion | $\chi=N\,\mathrm{Var}_t(\lvert n(t)\rvert)$, the variance of the absolute net opinion over a rollout, scaled by the number of agents. | *In the codebase, `variance_abs_net_opinion` computes `N_AGENTS * (net_sq_mean - net_abs_mean ** 2)` in [5_temperaturesweep.ipynb](res/5_temperaturesweep.ipynb). `sweep_at` computes it per chain over the post-burn-in window; `chi_soc` averages replica values for each community.* |
+| Critical Temperature | $\mathcal{T}_c$, the temperature at which $\chi$ peaks for a community. It marks the finite-size analogue of the phase transition between the high conviction characteristic regimes (consensus, polarization) and the low conviction one (indifference). | *In the codebase, `refine_peak` estimates each community's peak in [5_temperaturesweep.ipynb](res/5_temperaturesweep.ipynb). `tc_by_society` stores these temperatures, and the result entry `tc` is their mean.* |
 
 Here, `n` is the number of agents and `T` is the number of update rounds. The main runs use `n = 32`, `T = 8`, and `k = 5`, giving **nine recorded opinion states**: the initial state plus eight updates. These are experiment settings, not universal array sizes.
 
@@ -37,23 +47,9 @@ res/                    analysis notebooks (figures and prediction tables)
 online_appendix/        static browser for the message-level data
 ```
 
-```text
-Question banks + personas + interaction graphs
-                     |
-                     v
-            Generate conversations             lib/datagen*/
-                     |
-                     v
-            Raw episode JSON files             data/models/, async/, frontier/
-                     |
-                     v
-            Consolidate main / async runs       lib/clean_data*.ipynb
-                     |
-                     v
-            Fit models and make figures        res/
-```
+![Pipeline from question banks, personas, and interaction graphs through conversation generation and data consolidation to model fitting and figures.](assets/pipeline.png)
 
-The pipeline has three stages:
+The pipeline has three processing stages:
 
 1. **Generation.** The command-line entry points in `lib/datagen*/collect_*.py` build a bank of agent societies (a persona list, a question, and an interaction graph J), advance each society through the opinion dynamics by repeatedly calling a language model, and write one raw JSON file per episode under `data/models/`, `data/async/`, or `data/frontier/`, together with a `manifest.json` recording the full configuration.
 2. **Consolidation.** The notebooks `lib/clean_data.ipynb` and `lib/clean_data_seq.ipynb` flatten the raw episode files into the two flat records files `data/clean_runs.json` (synchronous runs, 9,600 episodes) and `data/clean_runs_seq.json` (asynchronous runs, 480 episodes), attaching the ground-truth answer (objective questions) or political-lean label (subjective questions) to every episode.
@@ -81,7 +77,7 @@ One round works as follows:
 4. Ask each agent for its opinion again, using its new inbox. With `k = 5`, samples `[+1, +1, -1, +1, -1]` produce an aggregated opinion of `+1`.
 5. Save both the five samples and the aggregated opinion, then repeat for the next round.
 
-These values illustrate the mechanics; they are not results from a recorded experiment. The functions implementing this sequence are described in Section 2.4.
+These values illustrate the mechanics. They are not results from a recorded experiment. The functions implementing this sequence are described in Section 2.4.
 
 ## 2. Experiment generation: `lib/`
 
@@ -109,9 +105,9 @@ Because all backends reduce to the same `Pi` signature, the dynamics code is ent
 Both prompts present the inbox split into two sections — messages from sources the agent *tends to agree with* and *tends to disagree with*. This is how the sign of the interaction matrix J enters the dynamics: the split is performed at the receiver from the sign of J (Section 2.3), so the samplers themselves never see J. Response parsing differs by regime:
 
 - `_parse_spin_subjective` looks for DISAGREE first, then AGREE, within the response text. It is more permissive than the requested one-word format.
-- `_parse_spin_objective` accepts A or B, including longer text containing only one of those standalone answer labels. It raises if both labels appear or neither appears.
+- `_parse_spin_objective` accepts A or B, including longer text containing only one of those standalone answer labels. It raises exception if both labels appear or neither appears.
 
-The dynamics layer retries parse failures twice. A persistent failure becomes spin `0`; the synchronous spin phase also records other failed calls as `0`. If an agent has spin `0` when asked to write a message, its message stance is chosen randomly from `−1` and `+1`.
+The dynamics layer retries parse failures twice. A persistent failure becomes spin `0`; the synchronous spin phase also records other failed calls as `0`. If an agent has spin `0` when asked to write a message, its message stance is chosen randomly from `−1` and `+1`. Failed samples and zero-valued aggregated states are rare: they account for 0.0377% of raw samples (5,214/13,824,000) and 0.00192% of aggregated states (53/2,764,800), respectively.
 
 ### 2.3 Interaction graphs: `lib/datagen/graph.py`
 
@@ -130,13 +126,11 @@ The generation module provides two constructors:
 - `sample_J_num_edges_symmetric` draws a symmetric random graph with a prescribed number of non-zero entries: each upper-triangular pair receives U_ij ~ Uniform(−1, 1), the largest-|U| pairs are kept, and each kept edge takes the sign of its U (so positive "agree" and negative "disagree" bonds are equally likely).
 - `make_lattice_J` builds two regular graph benchmarks: a square grid with up to four neighbors per agent and a triangular grid with up to six (the square grid plus a down-left diagonal), with a uniform bond sign. Boundaries have fewer neighbors; the grids do not wrap around.
 
-The `num_edges` argument counts **non-zero matrix entries**, so each undirected connection counts twice. For example, 112 entries represent 56 undirected connections; with 32 agents, the average degree is `112 / 32 = 3.5`.
-
-The additional low-rank matrices are stored in the episodes under `data/lowrank/`; their original generator is not included in this module. Each has a 10-node core with 34 internal edges and 22 outer nodes attached to one core hub, giving 56 undirected edges and no isolated nodes. The six signed matrices have algebraic rank 11 and spectral participation ratios of 5.92–6.88. See [the low-rank README](data/lowrank/README.md) for the construction description and measured frustration fractions.
+The `num_edges` argument counts **non-zero matrix entries**, so each undirected connection counts twice. For example, 112 entries represent 56 undirected connections; with 32 agents, the average degree is `112 / 32 = 3.5`. The additional low-rank matrices are stored in the episodes under `data/lowrank/`. See [the low-rank README](data/lowrank/README.md) for the construction description and metrics.
 
 ### 2.4 Synchronous forward dynamics: `lib/datagen/dynamics.py`
 
-[dynamics.py](lib/datagen/dynamics.py) is the heart of the generation code. The unit of simulation is a `Replica`: one (statement, J) trial holding the persona list, the current agree/disagree inbox of every agent, and the full spin and message history. `run_forward_dynamics` advances a list of replicas together through `num_steps` synchronous rounds:
+[dynamics.py](lib/datagen/dynamics.py) is the main part of the generation code. A `Replica` is a (statement, J) pair run. `run_forward_dynamics` advances a list of replicas together through `num_steps` synchronous rounds:
 
 **Initialization:** `_run_spin_phase(..., use_inbox=False)` samples all agents with empty inboxes to obtain `s(0)`.
 
@@ -148,25 +142,31 @@ The additional low-rank matrices are stored in the episodes under `data/lowrank/
 | 2 | `_build_inboxes` | Groups incoming messages by the sign of `J` and shuffles their order using a seed derived from replica name, step, and receiver. Called within the message phase. |
 | 3 | `_run_spin_phase` | Requests `k` opinion samples per agent using the new inbox, then saves the samples and their majority vote. |
 
-`_aggregate_spin` takes the sign of the sum of the samples. If the sum is zero, it uses the first sample; an empty sample list produces `0`.
+`_aggregate_spin` takes the sign of the sum of the samples. If the sum is zero, it uses the first sample; an empty sample list produces `0`. The calls within each phase run concurrently in a shared `ThreadPoolExecutor`. **Every message is collected before any new opinion is sampled for the next turn.** This ordering is what “synchronous” means here. `_save_replica` writes one `<name>.json` file containing the experiment context and histories. See the field reference in Section 3 for their shapes and time indices. An earlier version sampled multiple messages per sender. The comment above `_run_message_phase` records this change, and legacy runs remain in the data.
 
-The calls within each phase run concurrently in a shared `ThreadPoolExecutor`. **Every message is collected before any new opinion is sampled.** This ordering is what “synchronous” means here; parallel API calls do not make the simulation asynchronous.
+### 2.5 `lib/datagen/collect_energy.py`
 
-`_save_replica` writes one `<name>.json` file containing the experiment context and histories. See the field reference in Section 3 for their shapes and time indices.
+Run the following from the repository root to generate subjective-question trajectories with GPT-4o-mini using the main-experiment settings. Set OPENAI_API_KEY in your environment first.
 
-An earlier version sampled multiple messages per sender. The comment above `_run_message_phase` records this change, and legacy runs remain in the data.
+```bash
+python -m lib.datagen.collect_energy \
+  --model gpt-4o-mini \
+  --mode subjective \
+  --num-agents 32 \
+  --num-edges 112 \
+  --num-train-graphs 8 \
+  --num-seen-graphs 4 \
+  --num-fresh-graphs 4 \
+  --trajectories 4 \
+  --num-steps 8 \
+  --k 5 \
+  --seed 0 \
+  --output-dir outputs/gpt-4o-mini/subjective_energy
+```
 
-### 2.5 The main-experiment CLI: `lib/datagen/collect_energy.py`
+Square and triangular lattices are included by default. The command writes a manifest.json and one JSON file per episode to the specified output directory. API-backed generation incurs usage charges.
 
-[collect_energy.py](lib/datagen/collect_energy.py) turns the pieces above into the train/test trajectory dataset (`python -m lib.datagen.collect_energy`). Its responsibilities:
-
-- **Question banks.** `load_questions` reads `data/subj/{train,test}.jsonl` or `data/obj/{train,test}.jsonl` depending on `--mode` (subjective statements vs. objective A/B problems; objective rows must carry `choices`).
-- **Personas.** `load_canonical_personas` loads `data/<subj|obj>/personas.json` in a fixed canonical order, so agent i is always persona i across every episode — this alignment is what lets the analysis attach per-agent persona features later.
-- **Graph bank.** `build_graph_bank` draws, from a single seeded RNG, the eight random training graphs `J0..J7`, reuses the first four at test time ("seen"), draws four fresh test-only graphs `Jf0..Jf3`, and appends the square and triangular lattices to both splits. Defaults: n = 32 agents, 112 non-zero entries per J (average degree 3.5).
-- **Replica grid.** `build_replicas` instantiates one `Replica` per (question × graph × trajectory), 4 trajectories per pair by default, named `<qid>__<graph>__rep<r>`, and builds the manifest mapping each name to its qid, split, graph id, and whether the graph was seen in training.
-- **Execution.** The backend is resolved from the model name (a small registry plus name-based inference), `manifest.json` is written with the complete configuration, and `run_forward_dynamics` produces one JSON per replica under `data/models/<model-slug>/<mode>_energy/` (8 steps, k = 5, seed 0 in the main run configuration).
-
-The four models of the main experiments — GPT-4o-mini, Llama-3-8B-Instruct, Qwen, and Gemma — are each collected by one invocation per regime of this single CLI.
+For objective questions, change --mode subjective to --mode objective and use a corresponding output directory. For an offline run with simulated responses, add --mock.
 
 ### 2.6 Asynchronous dynamics: `lib/datagen_async/`
 
@@ -182,19 +182,19 @@ At each event, the firing agent first posts a message based on its latest opinio
 
 Events within one episode remain sequential. Different episodes run concurrently, and their LM calls use a shared thread pool. A failed episode chain is not saved, and chain failures cause the run to raise an error.
 
-Schedules are stored at `data/async/schedules/<mode>_firing_schedule.json`. Each replica's schedule RNG is derived from SHA-256 of the schedule seed and replica name. Using the same graph seed and parameters as the synchronous experiment reproduces its random graph bank; asynchronous schedules exclude lattices.
+Schedules are stored at `data/async/schedules/<mode>_firing_schedule.json`. Using the same graph seed and parameters as the synchronous experiment reproduces its random graph bank; asynchronous schedules exclude lattices.
 
 `SeqReplica` extends `Replica` with the schedule and event histories. The module reuses `_aggregate_spin`, `_build_inboxes`, `_run_spin_phase`, `_spin_call_with_retry`, and the prompt samplers from the synchronous implementation. Saved records retain the common history fields and add event-level information.
 
 ### 2.7 Frontier mixed-model dynamics: `lib/datagen_frontier/`
 
-The frontier experiment tests the fitted update rules on societies mixing two frontier model families. [collect_frontier.py](lib/datagen_frontier/collect_frontier.py) (`python -m lib.datagen_frontier.collect_frontier`) runs n = 64 agents — 32 on each of two models (by default GPT-5.6-sol and DeepSeek-V4-Flash via OpenRouter) — on **one** fixed random graph J0 (224 non-zero matrix entries, or 112 undirected connections, preserving average degree 3.5), for 8 steps with k = 1 spin sample, one episode per question, over the pooled train + test questions of both regimes. With the block assignment, the 32-persona bank is tiled over the 64 agents, so agents i and i + 32 share a persona across the two families. The round order and prompt protocol follow `lib.datagen.collect_energy`; the agent count, model assignment, graph selection, and sampling settings differ.
+The frontier experiment tests the fitted update rules on societies mixing two frontier model families. [collect_frontier.py](lib/datagen_frontier/collect_frontier.py) (`python -m lib.datagen_frontier.collect_frontier`) runs n = 64 agents — 32 on each of two models (by default GPT-5.6-sol and DeepSeek-V4-Flash via OpenRouter) — on one fixed random graph J0 (224 non-zero matrix entries, or 112 undirected connections, preserving average degree 3.5), for 8 steps with k = 1 spin sample, one episode per question, over the pooled train + test questions of both regimes. With the block assignment, the 32-persona bank is tiled over the 64 agents, so agents i and i + 32 share a persona across the two families. The round order and prompt protocol follow `lib.datagen.collect_energy`; the agent count, model assignment, graph selection, and sampling settings differ.
 
-[dynamics_mixed.py](lib/datagen_frontier/dynamics_mixed.py) makes this possible with a minimal extension: `MixedReplica` adds a per-agent model list, and the message/spin phases are copies of the synchronous ones in which every LM call is routed to the `Pi` of the *acting agent's* model (`_pi_for` on a dict of per-model `Pi`s built by `make_openrouter_pis`). The saved JSON additionally records `agent_models`. Outputs go to `data/frontier/<modelA>__<modelB>/<mode>_energy/`.
+[dynamics_mixed.py](lib/datagen_frontier/dynamics_mixed.py) makes this possible with a minimal extension: `MixedReplica` adds a per-agent model list, and the message/spin phases are copies of the synchronous ones in which every LM call is routed to the `Pi` of the acting agent's model (`_pi_for` on a dict of per-model `Pi`s built by `make_openrouter_pis`). The saved JSON additionally records `agent_models`. Outputs go to `data/frontier/<modelA>__<modelB>/<mode>_energy/`.
 
 ### 2.8 Consolidation and shared features
 
-- [clean_data.ipynb](lib/clean_data.ipynb) globs every episode JSON under `data/models/*/*/`, normalizes it into a flat table, parses the `<question>__<graph>__rep<r>` naming into columns, joins the ground-truth answers (from the objective banks' `answer` field) and political-lean labels (from `data/subj/lean.json`), asserts that every episode received exactly one of the two labels, and writes `data/clean_runs.json` (also pushed to the Hugging Face Hub as `physics-of-agents/agent-opinions`). [clean_data_seq.ipynb](lib/clean_data_seq.ipynb) does the same for `data/async/` into `data/clean_runs_seq.json`.
+- [clean_data.ipynb](lib/clean_data.ipynb) gathers every episode JSON under `data/models/*/*/`, normalizes it into a flat table, parses the `<question>__<graph>__rep<r>` naming into columns, joins the ground-truth answers (from the objective banks' `answer` field) and political-lean labels (from `data/subj/lean.json`), asserts that every episode received exactly one of the two labels, and writes `data/clean_runs.json` (also pushed to the Hugging Face Hub as `physics-of-agents/agent-opinions`). [clean_data_seq.ipynb](lib/clean_data_seq.ipynb) does the same for `data/async/` into `data/clean_runs_seq.json`.
 - [features.py](lib/features.py) is a small shared feature layer: a numpy-SVD `PCAReducer` (no sklearn dependency) and loaders for the persona and question embedding files, used when preparing the precomputed `embedding_pca10` features stored in the question banks.
 
 ## 3. Data: `data/`
@@ -235,15 +235,13 @@ Stored datasets and outputs:
 
 ## 4. Analysis: `res/`
 
-The shared analysis functions live in [res/utils.py](res/utils.py). This module defines the main model identifiers, `N_AGENTS = 32`, the group-classification threshold `TAU = 0.2`, and the class names used in plots.
+The analysis helper functions live in [res/utils.py](res/utils.py).
 
 ### 4.1 Load trajectories and build features
 
 `load_data` reads consolidated runs, question banks, and persona embeddings. Embeddings are numeric representations of text; PCA reduces them to a few coordinates used as prediction features. Questions use their first three stored PCA components, and `pca3` computes three persona components per regime.
 
 `graph_classes` labels graphs as seen, train-only, fresh, or lattice from their structure and the question splits in which they occur. `opinions` returns the mean of the raw spin samples, with shape `(T + 1, n)` for one episode.
-
-The generalization notebook labels its additional low-rank graphs from their source directory and identifies square and triangular lattices by exact matrix comparison. This keeps all-positive low-rank graphs distinct from lattices. It checks that training and evaluation share neither question IDs nor graph matrices, and displays the question, graph, replica, and episode counts for every family.
 
 `static_field` constructs features that stay fixed throughout an episode:
 
@@ -260,34 +258,28 @@ The generalization notebook labels its additional low-rank graphs from their sou
 - `x` has shape `(episodes, T, n, 19)`: one previous spin, 16 static features, and two peer drives.
 - `y` has shape `(episodes, T, n)`: the next aggregated spin. Unparsed targets (`0`) are excluded from fitting and scoring.
 
-A **peer drive** sums neighboring opinions with the corresponding connection weights. The positive drive is `J⁺s`, with `J⁺ = max(J, 0)`. The negative drive is `J⁻s`, with `J⁻ = min(J, 0)`, so its weights retain their negative signs. The analysis uses matrix–vector products; the generated graphs are symmetric, so this agrees with the sender/receiver convention used during generation.
+The positive drive is `J⁺s`, with `J⁺ = max(J, 0)`. The negative drive is `J⁻s`, with `J⁻ = min(J, 0)`, so its weights retain their negative signs. The analysis uses matrix–vector products and the generated graphs are symmetric.
 
 ### 4.2 Fit an update rule and run it forward
 
 `Logistic` fits a logistic regression: it maps the features to a probability of the next spin being `+1`. Its implementation standardizes feature columns and uses full-batch `adam` to optimize cross-entropy with a small L2 penalty (`10⁻³`) on the persona/question field weights. The bias and coupling coefficients are unpenalized. Couplings start at `0.1`.
 
-The logistic loss is convex, but this alone does not guarantee a unique solution or convergence of the finite Adam run.
-
 `fit_continuous` in the synchronous and asynchronous prediction notebooks fits the original feature columns without centering or scaling. Its L2 penalty (`10⁻³`) applies to the non-bias field coefficients in these original coordinates. Couplings start at `0.1` and are unpenalized. All other optimization parameters start at zero, including `θ₀`, so the initial update rate is `ε = sigmoid(0) = 0.5`. The sigmoid keeps the fitted update rate in `(0, 1)`.
 
-The continuous fitter returns its coefficients directly; one-step predictions and rollouts use the original features. The discrete logistic fitter converts its standardized coefficients and intercept back to the original coordinates before returning them. For a two-stage continuous fit, the first stage's unsigned coefficient supplies a fixed additive score in the second stage. The continuous objective jointly fits `ε` and the response weights and does not inherit the logistic model's convexity guarantee.
-
-`two_stage_fit` handles designs whose peer drives are linearly dependent. In particular, the unsigned drive satisfies `|J|s = J⁺s − J⁻s`. It first fits the unsigned coupling `β₀`, then keeps that contribution fixed while fitting the signed couplings.
+`two_stage_fit` handles designs whose peer drives are linearly dependent.  In particular, the unsigned drive satisfies `|J|s = J⁺s − J⁻s`. It first fits the unsigned coupling `β₀`, then keeps that contribution fixed while fitting the signed couplings. For a two-stage continuous fit, the first stage's unsigned coefficient supplies a fixed additive score in the second stage. 
 
 There are two ways to evaluate an update rule:
 
 | Evaluation | Where the previous opinions come from |
 | --- | --- |
-| One-step prediction | The recorded experiment, at each step. |
-| Rollout | The recorded initial state, followed by the model's own predictions. Errors can accumulate across steps. |
-
-`drives` computes peer-drive features, and `discrete_rollout` applies the fitted rule repeatedly. A deterministic rollout chooses a spin from the sign of the fitted score; a stochastic rollout samples a spin using the predicted probability.
+| One-step prediction | Predict the next state given the current correct state (current state is always assumed to be correct state, even when predicting multiple steps ahead) |
+| Rollout | Predict the next state given the current predicted state (errors can accumulate since the next step prediction is conditioned on predicted values of the current step in predictions for multi-step ahead) |
 
 ### 4.3 Score predictions and describe behavior
 
 `raw_acc` is the percentage of correct predictions among transitions with parsed targets.
 
-`fcba` is **flip-and-class balanced accuracy**. It computes accuracy separately for four groups, then averages the nonempty groups equally:
+`fcba` is *flip-and-class balanced accuracy*. It computes accuracy separately for four groups, then averages the nonempty groups equally:
 
 | Transition | Next opinion |
 | --- | --- |
@@ -298,23 +290,17 @@ There are two ways to evaluate an update rule:
 
 This keeps frequent “stay” events from dominating the score. Both previous and next spins must be nonzero. When all four groups are present, always retaining the previous spin or always predicting one label scores 50%.
 
-For descriptive plots, `flip_counts` and `individual_archetypes` classify each agent by sign switches: Frozen (0), Switcher (1), Intermittent (2), or Oscillating (3 or more). Zero-valued opinions carry the last sign when counting switches.
-
-`group_archetypes` compares the initial and final mean opinion against a split band around zero. It labels the society Persistent Split, Convergence, Divergence, Majority Switch, or Persistent Majority. The threshold is `TAU = 0.2`; the default uses `|mean opinion| < TAU`, while `closed=True` includes the boundary.
-
 ### 4.4 Find the notebook for a question
 
-**Execution dependency:** `4_prediction.ipynb` writes `res/couplings.json`. Run that notebook before `5_temperaturesweep.ipynb` or `6_distribution.ipynb` if the fitted file is absent or needs regenerating. `4_prediction_generalization.ipynb` fits its own models and can run independently from the repository root or `res/`; it does not read or overwrite `couplings.json`.
-
-The notebooks, in reading order:
+Execution Dependency: `4_prediction.ipynb` writes `res/couplings.json`. Run that notebook before `5_temperaturesweep.ipynb` or `6_distribution.ipynb` if the fitted file is absent or needs regenerating. `4_prediction_generalization.ipynb` fits its own models and can run independently.
 
 - [1_archetypes.ipynb](res/1_archetypes.ipynb) — the individual and group trajectory archetypes and their composition tables across models and regimes.
-- [2_conviction.ipynb](res/2_conviction.ipynb) — the mean-conviction plane (net opinion vs. conviction) over rounds and the consensus / polarization / indifference decomposition.
+- [2_conviction.ipynb](res/2_conviction.ipynb) — the net opinion vs. conviction over rounds and the consensus / polariztion / indifference decomposition.
 - [3_truth_seeking.ipynb](res/3_truth_seeking.ipynb) — objective questions: does the net opinion's sign converge to the correct answer over the 9 rounds. [3S_politicallean.ipynb](res/3S_politicallean.ipynb) and [3S_labelbias.ipynb](res/3S_labelbias.ipynb) analyze political lean and answer-label bias. The objective bank has balanced answer labels.
-- [4_prediction.ipynb](res/4_prediction.ipynb) — the main prediction table: the update rules (persistence, interaction-free, mean-field Curie–Weiss, the discrete update, and its three-coupling extension) fit on train questions × the eight random graphs and scored on test questions × seen vs. fresh graphs, under both metrics, one-step and rollout. It ends by refitting the discrete update at one / three / five couplings and **writing `res/couplings.json`**, the interface to the two notebooks below.
-- [4_prediction_generalization.ipynb](res/4_prediction_generalization.ipynb) — fits the five discrete methods once per GPT-4o-mini question regime on training questions × eight random graphs, then evaluates held-out questions on four fresh random graphs, six low-rank graphs, and the square and triangular lattices. It reads low-rank episodes directly from `data/lowrank/` and reports coverage before scoring. Its 80 scores (five methods × two regimes × four graph families × one-step/rollout) use flip-and-class balanced accuracy and are displayed as a table and exported as LaTeX.
-- [5_temperaturesweep.ipynb](res/5_temperaturesweep.ipynb) — reads `couplings.json`, varies the temperature of the fitted three-coupling update to study changes in collective behavior. Here temperature controls the randomness of the fitted model, rather than the API sampling temperature. The notebook locates the susceptibility peak separately for each question–graph group, then reports the mean of those group peak temperatures. It also plots the mean susceptibility curve and its standard deviation across groups.
-- [6_distribution.ipynb](res/6_distribution.ipynb) — reads `couplings.json` and asks whether free-running the fitted update from the real s(0) reproduces the *distribution* of individual and group archetypes of the real runs, plus the replica predictability ceiling.
-- [7_prediction_continuous.ipynb](res/7_prediction_continuous.ipynb) — the continuous-time extension `m(t+1) = (1−ε)s(t) + ε·tanh(w·design)`, which blends the previous spin with a fitted response. It is fit by penalized maximum likelihood on the original feature columns with the shared Adam optimizer and added to the prediction tables.
+- [4_prediction.ipynb](res/4_prediction.ipynb) — the main prediction table: the update rules (persistence, interaction-free, mean-field, the discrete update, and its three-coupling extension) fit on train questions × the eight random graphs and scored on test questions × seen vs. fresh graphs, under both metrics, one-step and rollout. It ends by refitting the discrete update at one / three / five couplings and *writing `res/couplings.json`*, the interface to the two notebooks below.
+- [4_prediction_generalization.ipynb](res/4_prediction_generalization.ipynb) — fits the five discrete methods once per GPT-4o-mini question regime on training questions × eight random graphs, then evaluates held-out questions on four fresh random graphs, six low-rank graphs, and the square and triangular lattices. It reads low-rank episodes directly from `data/lowrank/` and reports coverage before scoring. Its 80 scores (five methods × two regimes × four graph families × one-step/rollout) use flip-and-class balanced accuracy. 
+- [4_prediction_frontier.ipynb](res/4_prediction_frontier.ipynb) — the prediction methods on the frontier mixed-family run (read directly from `data/frontier/`): n = 64, one graph, personas tiled, k = 1; with a single J.
+- [5_temperaturesweep.ipynb](res/5_temperaturesweep.ipynb) — reads `couplings.json`, varies the temperature of the fitted three-coupling update to study changes in collective behavior. Here, temperature controls the randomness of the fitted model, rather than the API sampling temperature. The notebook locates the variance_abs_net_opinion peak separately for each question–graph group, then reports the mean of those group peak temperatures. It also plots the mean variance_abs_net_opinion curve and its standard deviation across groups.
+- [6_distribution.ipynb](res/6_distribution.ipynb) — reads `couplings.json` and asks whether free-running the fitted update from the real s(0) reproduces the distribution of individual and group archetypes of the real runs, plus the replica predictability ceiling.
+- [7_prediction_continuous.ipynb](res/7_prediction_continuous.ipynb) — the continuous-time extension `m(t+1) = (1−ε)s(t) + ε·tanh(w·design)`. It is fit by penalized maximum likelihood on the original feature columns with the shared Adam optimizer and added to the prediction tables.
 - [8_prediction_async.ipynb](res/8_prediction_async.ipynb) — the continuous-time methods refit on the schedule-driven asynchronous runs (`data/clean_runs_seq.json`).
-- [4_prediction_frontier.ipynb](res/4_prediction_frontier.ipynb) — the prediction methods on the frontier mixed-family run (read directly from `data/frontier/`): n = 64, one graph, personas tiled, k = 1; with a single J there is no seen/fresh axis, so the table's columns report model families instead.
